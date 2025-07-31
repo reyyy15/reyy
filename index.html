@@ -1,15 +1,201 @@
-<!DOCTYPE html><html lang="en" class="dark"><head>    <meta charset="UTF-8">    <meta name="viewport" content="width=device-width, initial-scale=1.0">    <title>NIX - Your goals deserve a plan.</title>        <!-- Tailwind CSS for styling -->    <script src="https://cdn.tailwindcss.com"></script>        <!-- Lucide Icons -->    <script src="https://unpkg.com/lucide-react@latest/dist/lucide-react.js"></script>    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>        <!-- Custom Google Font -->    <link rel="preconnect" href="https://fonts.googleapis.com">    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <style>        /* Basic Setup */        body {            font-family: 'Inter', sans-serif;            background-color: #111827; /* bg-gray-900 */            color: #d1d5db; /* text-gray-300 */        }        .dark {}        html:not(.dark) body {            background-color: #f9fafb; /* bg-gray-50 */            color: #374151; /* text-gray-700 */        }                .page { display: none; }        .page.active { display: block; }
-        @keyframes fadeIn {            from { opacity: 0; transform: translateY(10px); }            to { opacity: 1; transform: translateY(0); }        }        .animate-fade-in { animation: fadeIn 0.5s ease-out forwards; }
-        .card {            background-color: rgba(31, 41, 55, 0.5);            backdrop-filter: blur(4px);            border: 1px solid rgba(55, 65, 81, 0.5);        }        html:not(.dark) .card {             background-color: rgba(255, 255, 255, 0.7);             border: 1px solid #e5e7eb;        }
-        .header-bg { background-color: rgba(17, 24, 39, 0.7); }        html:not(.dark) .header-bg { background-color: rgba(255, 255, 255, 0.7); }                .form-input {            background-color: #1f2937;            border-color: #374151;        }        html:not(.dark) .form-input {            background-color: #f3f4f6;            border-color: #d1d5db;        }                .plan-button {            width: 100%;            font-weight: 700;            padding-top: 2rem;            padding-bottom: 2rem;            padding-left: 2.5rem;            padding-right: 2.5rem;            border-radius: 0.5rem;            font-size: 1.5rem;            line-height: 2rem;            transition: transform 0.3s;        }        .plan-button:hover {            transform: scale(1.05);        }        @media (min-width: 768px) {            .plan-button {                width: auto;            }        }
-        /* Stock Ticker Styles */        .ticker-wrap {            width: 100%;            overflow: hidden;            background-color: #1f2937;            padding: 0.5rem 0;            border-bottom: 1px solid #374151;        }        html:not(.dark) .ticker-wrap {            background-color: #f3f4f6;            border-bottom: 1px solid #d1d5db;        }        .ticker {            display: inline-block;            white-space: nowrap;            padding-left: 100%;            animation: ticker 60s linear infinite;        }        .ticker-item {            display: inline-block;            padding: 0 1.5rem;            font-size: 0.875rem;        }        .ticker-item span {            font-weight: 600;        }        @keyframes ticker {            0% { transform: translateX(0); }            100% { transform: translateX(-100%); }        }    </style></head><body>
-    <!-- App Container -->    <div id="app-root">        <!-- Header -->        <header class="sticky top-0 z-50 header-bg backdrop-blur-lg border-b border-gray-700/50">            <div class="container mx-auto px-4">                <div class="flex justify-between items-center py-4">                    <div class="flex items-center gap-2 cursor-pointer" onclick="navigateTo('Home')">                        <svg class="w-8 h-8 text-indigo-500" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L2 7V17L12 22L22 17V7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 7L12 12L22 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 22V12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>                        <span class="text-2xl font-bold text-black dark:text-white">NIX</span>                    </div>
-                    <nav id="desktop-nav" class="hidden lg:flex items-center gap-6">                        <a href="#" class="nav-link" data-page="Home">Home</a>                        <a href="#" class="nav-link" data-page="GoalPlanner">Goal Planner</a>                        <a href="#" class="nav-link" data-page="Dashboard">Dashboard</a>                    </nav>
-                    <div class="hidden lg:flex items-center gap-4">                        <button id="theme-toggle-desktop" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700"></button>                        <button onclick="navigateTo('Login')" class="bg-gray-200 dark:bg-gray-700 text-black dark:text-white font-semibold py-2 px-4 rounded-lg text-sm">Log In</button>                        <button onclick="navigateTo('Signup')" class="bg-indigo-600 text-white font-semibold py-2 px-4 rounded-lg text-sm">Sign Up</button>                    </div>
-                    <div class="lg:hidden">                        <button id="mobile-menu-button" class="p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700"></button>                    </div>                </div>            </div>            <div id="mobile-menu" class="hidden lg:hidden">                <nav class="flex flex-col items-center gap-4 px-4 pb-4">                    <a href="#" class="nav-link w-full text-center py-2 rounded-md" data-page="Home">Home</a>                    <a href="#" class="nav-link w-full text-center py-2 rounded-md" data-page="GoalPlanner">Goal Planner</a>                    <a href="#" class="nav-link w-full text-center py-2 rounded-md" data-page="Dashboard">Dashboard</a>                    <hr class="w-full border-gray-300 dark:border-gray-700 my-2"/>                    <div class="w-full space-y-3">                        <button onclick="navigateTo('Login')" class="w-full bg-gray-200 dark:bg-gray-700 text-black dark:text-white font-semibold py-2 px-4 rounded-lg">Log In</button>                        <button onclick="navigateTo('Signup')" class="w-full bg-indigo-600 text-white font-semibold py-2 px-4 rounded-lg">Sign Up</button>                    </div>                     <button id="theme-toggle-mobile" class="mt-4 p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700"></button>                </nav>            </div>        </header>
-        <!-- Stock Ticker -->        <div class="ticker-wrap">            <div class="ticker">                <div class="ticker-item">S&P BSE SENSEX 81185.58 <span class="text-red-500">-296.28 (-0.36%)</span></div>                <div class="ticker-item">NIFTY 50 24768.35 <span class="text-red-500">-86.7 (-0.35%)</span></div>                <div class="ticker-item">NIFTY Bank 55961.95 <span class="text-red-500">-188.75 (-0.34%)</span></div>                <div class="ticker-item">NIFTY Midcap 100 57400.55 <span class="text-red-500">-541.7 (-0.93%)</span></div>                <div class="ticker-item">NIFTY Smallcap 100 17966.85 <span class="text-red-500">-190 (-1.05%)</span></div>                <div class="ticker-item">S&P BSE 200 11248.28 <span class="text-red-500">-51.34 (-0.45%)</span></div>                <div class="ticker-item">S&P BSE 500 35981.74 <span class="text-red-500">-185.41 (-0.51%)</span></div>                <!-- Duplicate for seamless scroll -->                <div class="ticker-item">S&P BSE SENSEX 81185.58 <span class="text-red-500">-296.28 (-0.36%)</span></div>                <div class="ticker-item">NIFTY 50 24768.35 <span class="text-red-500">-86.7 (-0.35%)</span></div>                <div class="ticker-item">NIFTY Bank 55961.95 <span class="text-red-500">-188.75 (-0.34%)</span></div>                <div class="ticker-item">NIFTY Midcap 100 57400.55 <span class="text-red-500">-541.7 (-0.93%)</span></div>                <div class="ticker-item">NIFTY Smallcap 100 17966.85 <span class="text-red-500">-190 (-1.05%)</span></div>                <div class="ticker-item">S&P BSE 200 11248.28 <span class="text-red-500">-51.34 (-0.45%)</span></div>                <div class="ticker-item">S&P BSE 500 35981.74 <span class="text-red-500">-185.41 (-0.51%)</span></div>            </div>        </div>
-        <main>            <section id="Home" class="page active">                <header class="relative text-center py-20 md:py-40 px-4 overflow-hidden bg-gray-100 dark:bg-gray-900">                    <div class="absolute inset-0 bg-gray-900 opacity-50 dark:opacity-70"></div>                    <div class="absolute inset-0 bg-gradient-to-b from-gray-900 via-transparent to-gray-900"></div>                    <div class="relative z-10">                        <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight mb-4 bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-purple-500">NIX</h1>                        <p class="text-xl md:text-2xl text-gray-200 dark:text-gray-300 mb-8">Your goals deserve a plan.</p>                        <div class="space-x-4">                            <button onclick="navigateTo('Dashboard')" class="bg-indigo-600 text-white px-8 py-4 font-semibold rounded-lg text-lg">Get Started</button>                        </div>                    </div>                </header>
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NIX - Your goals deserve a plan.</title>
+    
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide-react@latest/dist/lucide-react.js"></script>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    
+    <!-- Custom Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <style>
+        /* Basic Setup */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #111827; /* bg-gray-900 */
+            color: #d1d5db; /* text-gray-300 */
+        }
+        .dark {}
+        html:not(.dark) body {
+            background-color: #f9fafb; /* bg-gray-50 */
+            color: #374151; /* text-gray-700 */
+        }
+        
+        .page { display: none; }
+        .page.active { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in { animation: fadeIn 0.5s ease-out forwards; }
+
+        .card {
+            background-color: rgba(31, 41, 55, 0.5);
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(55, 65, 81, 0.5);
+        }
+        html:not(.dark) .card {
+             background-color: rgba(255, 255, 255, 0.7);
+             border: 1px solid #e5e7eb;
+        }
+
+        .header-bg { background-color: rgba(17, 24, 39, 0.7); }
+        html:not(.dark) .header-bg { background-color: rgba(255, 255, 255, 0.7); }
+        
+        .form-input {
+            background-color: #1f2937;
+            border-color: #374151;
+        }
+        html:not(.dark) .form-input {
+            background-color: #f3f4f6;
+            border-color: #d1d5db;
+        }
+        
+        .plan-button {
+            width: 100%;
+            font-weight: 700;
+            padding-top: 2rem;
+            padding-bottom: 2rem;
+            padding-left: 2.5rem;
+            padding-right: 2.5rem;
+            border-radius: 0.5rem;
+            font-size: 1.5rem;
+            line-height: 2rem;
+            transition: transform 0.3s;
+        }
+        .plan-button:hover {
+            transform: scale(1.05);
+        }
+        @media (min-width: 768px) {
+            .plan-button {
+                width: auto;
+            }
+        }
+
+        /* Stock Ticker Styles */
+        .ticker-wrap {
+            width: 100%;
+            overflow: hidden;
+            background-color: #1f2937;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #374151;
+        }
+        html:not(.dark) .ticker-wrap {
+            background-color: #f3f4f6;
+            border-bottom: 1px solid #d1d5db;
+        }
+        .ticker {
+            display: inline-block;
+            white-space: nowrap;
+            padding-left: 100%;
+            animation: ticker 60s linear infinite;
+        }
+        .ticker-item {
+            display: inline-block;
+            padding: 0 1.5rem;
+            font-size: 0.875rem;
+        }
+        .ticker-item span {
+            font-weight: 600;
+        }
+        @keyframes ticker {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-100%); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- App Container -->
+    <div id="app-root">
+        <!-- Header -->
+        <header class="sticky top-0 z-50 header-bg backdrop-blur-lg border-b border-gray-700/50">
+            <div class="container mx-auto px-4">
+                <div class="flex justify-between items-center py-4">
+                    <div class="flex items-center gap-2 cursor-pointer" onclick="navigateTo('Home')">
+                        <svg class="w-8 h-8 text-indigo-500" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L2 7V17L12 22L22 17V7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 7L12 12L22 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 22V12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        <span class="text-2xl font-bold text-black dark:text-white">NIX</span>
+                    </div>
+
+                    <nav id="desktop-nav" class="hidden lg:flex items-center gap-6">
+                        <a href="#" class="nav-link" data-page="Home">Home</a>
+                        <a href="#" class="nav-link" data-page="GoalPlanner">Goal Planner</a>
+                        <a href="#" class="nav-link" data-page="Dashboard">Dashboard</a>
+                        <a href="#" class="nav-link" data-page="About">About</a>
+                    </nav>
+
+                    <div class="hidden lg:flex items-center gap-4">
+                        <button id="theme-toggle-desktop" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700"></button>
+                        <button onclick="navigateTo('Login')" class="bg-gray-200 dark:bg-gray-700 text-black dark:text-white font-semibold py-2 px-4 rounded-lg text-sm">Log In</button>
+                        <button onclick="navigateTo('Signup')" class="bg-indigo-600 text-white font-semibold py-2 px-4 rounded-lg text-sm">Sign Up</button>
+                    </div>
+
+                    <div class="lg:hidden">
+                        <button id="mobile-menu-button" class="p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700"></button>
+                    </div>
+                </div>
+            </div>
+            <div id="mobile-menu" class="hidden lg:hidden">
+                <nav class="flex flex-col items-center gap-4 px-4 pb-4">
+                    <a href="#" class="nav-link w-full text-center py-2 rounded-md" data-page="Home">Home</a>
+                    <a href="#" class="nav-link w-full text-center py-2 rounded-md" data-page="GoalPlanner">Goal Planner</a>
+                    <a href="#" class="nav-link w-full text-center py-2 rounded-md" data-page="Dashboard">Dashboard</a>
+                    <a href="#" class="nav-link w-full text-center py-2 rounded-md" data-page="About">About</a>
+                    <hr class="w-full border-gray-300 dark:border-gray-700 my-2"/>
+                    <div class="w-full space-y-3">
+                        <button onclick="navigateTo('Login')" class="w-full bg-gray-200 dark:bg-gray-700 text-black dark:text-white font-semibold py-2 px-4 rounded-lg">Log In</button>
+                        <button onclick="navigateTo('Signup')" class="w-full bg-indigo-600 text-white font-semibold py-2 px-4 rounded-lg">Sign Up</button>
+                    </div>
+                     <button id="theme-toggle-mobile" class="mt-4 p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700"></button>
+                </nav>
+            </div>
+        </header>
+
+        <!-- Stock Ticker -->
+        <div class="ticker-wrap">
+            <div class="ticker">
+                <div class="ticker-item">S&P BSE SENSEX 81185.58 <span class="text-red-500">-296.28 (-0.36%)</span></div>
+                <div class="ticker-item">NIFTY 50 24768.35 <span class="text-red-500">-86.7 (-0.35%)</span></div>
+                <div class="ticker-item">NIFTY Bank 55961.95 <span class="text-red-500">-188.75 (-0.34%)</span></div>
+                <div class="ticker-item">NIFTY Midcap 100 57400.55 <span class="text-red-500">-541.7 (-0.93%)</span></div>
+                <div class="ticker-item">NIFTY Smallcap 100 17966.85 <span class="text-red-500">-190 (-1.05%)</span></div>
+                <div class="ticker-item">S&P BSE 200 11248.28 <span class="text-red-500">-51.34 (-0.45%)</span></div>
+                <div class="ticker-item">S&P BSE 500 35981.74 <span class="text-red-500">-185.41 (-0.51%)</span></div>
+                <!-- Duplicate for seamless scroll -->
+                <div class="ticker-item">S&P BSE SENSEX 81185.58 <span class="text-red-500">-296.28 (-0.36%)</span></div>
+                <div class="ticker-item">NIFTY 50 24768.35 <span class="text-red-500">-86.7 (-0.35%)</span></div>
+                <div class="ticker-item">NIFTY Bank 55961.95 <span class="text-red-500">-188.75 (-0.34%)</span></div>
+                <div class="ticker-item">NIFTY Midcap 100 57400.55 <span class="text-red-500">-541.7 (-0.93%)</span></div>
+                <div class="ticker-item">NIFTY Smallcap 100 17966.85 <span class="text-red-500">-190 (-1.05%)</span></div>
+                <div class="ticker-item">S&P BSE 200 11248.28 <span class="text-red-500">-51.34 (-0.45%)</span></div>
+                <div class="ticker-item">S&P BSE 500 35981.74 <span class="text-red-500">-185.41 (-0.51%)</span></div>
+            </div>
+        </div>
+
+        <main>
+            <section id="Home" class="page active">
+                <header class="relative text-center py-20 md:py-40 px-4 overflow-hidden bg-gray-100 dark:bg-gray-900">
+                    <div class="absolute inset-0 bg-gray-900 opacity-50 dark:opacity-70"></div>
+                    <div class="absolute inset-0 bg-gradient-to-b from-gray-900 via-transparent to-gray-900"></div>
+                    <div class="relative z-10">
+                        <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight mb-4 bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-purple-500">NIX</h1>
+                        <p class="text-xl md:text-2xl text-gray-200 dark:text-gray-300 mb-8">Your goals deserve a plan.</p>
+                        <div class="space-x-4">
+                            <button onclick="navigateTo('Dashboard')" class="bg-indigo-600 text-white px-8 py-4 font-semibold rounded-lg text-lg">Get Started</button>
+                        </div>
+                    </div>
+                </header>
 
                 <!-- Active Users Section -->
                 <div class="py-12 container mx-auto px-4">
@@ -20,37 +206,265 @@
                     </div>
                 </div>
 
-                <!-- Goal Planner CTA Section -->                <div class="py-12 md:py-20 px-4 container mx-auto">                    <div class="card p-8 rounded-xl text-center">                        <h2 class="text-3xl font-bold text-black dark:text-white">Goal Planner (Lite)</h2>                        <p class="text-gray-600 dark:text-gray-400 mt-2 max-w-2xl mx-auto">Start planning your financial future for free. Create up to two goals and get a simple, guided plan to achieve them.</p>                        <button onclick="navigateTo('GoalPlanner')" class="mt-6 bg-indigo-600 text-white font-semibold py-3 px-6 rounded-lg">Start Planning Now</button>                    </div>                </div>                                
-                <!-- Latest IPO Section -->                <div class="py-12 md:py-20 px-4 container mx-auto bg-gray-200 dark:bg-gray-800/50 rounded-xl">                    <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-black dark:text-white">Latest IPOs</h2>                    <div id="latest-ipos" class="grid lg:grid-cols-3 gap-8"></div>                    <div class="text-center mt-12 flex flex-col md:flex-row justify-center items-center gap-4">                        <button onclick="navigateTo('AllIPOs')" class="inline-block bg-gray-600 text-white font-bold py-4 px-10 rounded-lg text-lg transform hover:scale-105 transition-transform duration-300">Explore More</button>                    </div>                </div>            </section>                        
-            <!-- Goal Planner Page -->            
+                <!-- Goal Planner CTA Section -->
+                <div class="py-12 md:py-20 px-4 container mx-auto">
+                    <div class="card p-8 rounded-xl text-center">
+                        <h2 class="text-3xl font-bold text-black dark:text-white">Goal Planner (Lite)</h2>
+                        <p class="text-gray-600 dark:text-gray-400 mt-2 max-w-2xl mx-auto">Start planning your financial future for free. Create up to two goals and get a simple, guided plan to achieve them.</p>
+                        <button onclick="navigateTo('GoalPlanner')" class="mt-6 bg-indigo-600 text-white font-semibold py-3 px-6 rounded-lg">Start Planning Now</button>
+                    </div>
+                </div>
+                
+                <!-- Latest IPO Section -->
+                <div class="py-12 md:py-20 px-4 container mx-auto bg-gray-200 dark:bg-gray-800/50 rounded-xl">
+                    <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-black dark:text-white">Latest IPOs</h2>
+                    <div id="latest-ipos" class="grid lg:grid-cols-3 gap-8"></div>
+                    <div class="text-center mt-12 flex flex-col md:flex-row justify-center items-center gap-4">
+                        <button onclick="navigateTo('AllIPOs')" class="inline-block bg-gray-600 text-white font-bold py-4 px-10 rounded-lg text-lg transform hover:scale-105 transition-transform duration-300">Explore More</button>
+                    </div>
+                </div>
+
+                <!-- About CTA Section -->
+                <div class="py-12 md:py-20 px-4 container mx-auto">
+                    <div class="card p-8 rounded-xl text-center">
+                        <h2 class="text-3xl font-bold text-black dark:text-white">Who We Are</h2>
+                        <p class="text-gray-600 dark:text-gray-400 mt-2 max-w-2xl mx-auto">"Driven by Vision, Built with Purpose, Creating Simplicity in a Complex Financial World."</p>
+                        <button onclick="navigateTo('About')" class="mt-6 bg-indigo-600 text-white font-semibold py-3 px-6 rounded-lg">About NIX</button>
+                    </div>
+                </div>
+
+            </section>
+
+            <!-- Goal Planner Page -->
             <section id="GoalPlanner" class="page">
-                <div class="min-h-[70vh] flex flex-col items-center justify-center text-center px-4">
-                    <div id="countdown-icon" class="mb-4"></div>
-                    <h2 class="text-4xl md:text-5xl font-bold text-black dark:text-white mt-6">Coming Soon!</h2>
-                    <p class="text-lg text-gray-600 dark:text-gray-400 mt-2">The Goal Planner feature is under construction.</p>
-                    <p class="text-lg text-gray-600 dark:text-gray-400">Stay tuned for an amazing new way to plan your finances.</p>
+                 <div class="min-h-[70vh] flex flex-col items-center justify-center text-center px-4 py-12">
+                    <div id="goal-planner-container"></div>
                 </div>
             </section>
-                                    <section id="Dashboard" class="page">                <div class="min-h-[70vh] flex flex-col items-center justify-center text-center px-4">                    <h2 class="text-3xl md:text-4xl font-bold text-black dark:text-white mb-8">Choose NIX Premium Plans.</h2>                    <div class="frame flex flex-col md:flex-row items-center gap-8">                        <button onclick="navigateTo('EssentialDetails')" class="plan-button bg-gray-200 dark:bg-gray-700 text-black dark:text-white">NIX Essential</button>                        <button onclick="navigateTo('ProDetails')" class="plan-button bg-indigo-600 text-white shadow-lg shadow-indigo-500/50">NIX Pro</button>                        <button onclick="navigateTo('EliteDetails')" class="plan-button bg-purple-600 text-white">NIX Elite</button>                    </div>                </div>            </section>                        <!-- Plan Details Pages -->            <section id="EssentialDetails" class="page"><div class="min-h-[70vh] container mx-auto px-4 py-16"><div class="max-w-3xl mx-auto card p-8 rounded-xl"><h2 class="text-3xl font-bold text-indigo-400">NIX Essential – ₹4,999</h2><p class="mt-2 text-lg text-gray-300">For smart beginners and focused investors.</p><hr class="my-6 border-gray-700"><h3 class="text-xl font-semibold text-white mb-3">Includes:</h3><ol class="list-decimal list-inside space-y-2 text-gray-300"><li>Real-time market dashboard</li><li>Stock analysis tools (technical & fundamental)</li><li>Personal portfolio tracker</li><li>Options & derivatives tools</li><li>Price alerts and notifications</li><li>Expert research & trade ideas</li></ol><p class="mt-6 text-gray-400 italic"><b>Great for:</b> People who want a strong start in the market.</p><div class="mt-8 flex items-center gap-4"><button onclick="navigateTo('Dashboard')" class="bg-gray-600 text-white font-semibold py-3 px-6 rounded-lg">Back to Choices</button><a href="https://docs.google.com/forms/d/e/1FAIpQLSdG-ucB1LTzKzIPszm54OqTRSaWDhlGoD1jDrYx1Mui04O3tw/viewform?usp=dialog" target="_blank" class="bg-purple-600 text-white font-semibold py-3 px-6 rounded-lg">BUY NOW</a></div></div></div></section>            <section id="ProDetails" class="page"><div class="min-h-[70vh] container mx-auto px-4 py-16"><div class="max-w-3xl mx-auto card p-8 rounded-xl"><h2 class="text-3xl font-bold text-indigo-400">NIX Pro – ₹9,999</h2><p class="mt-2 text-lg text-gray-300">For active traders and learners who want more.</p><hr class="my-6 border-gray-700"><h3 class="text-xl font-semibold text-white mb-3">Everything in Essential, plus:</h3><ol class="list-decimal list-inside space-y-2 text-gray-300" start="7"><li>Premium trading community & live chat rooms</li><li>Online classes & learning workshops</li><li>Live webinars & expert sessions</li><li>Backtesting tools to test your trading ideas</li><li>Pro user perks:<ul class="list-disc list-inside ml-6 mt-1"><li>Ad-free experience</li><li>Priority customer support</li><li>Early access to new features</li></ul></li></ol><p class="mt-6 text-gray-400 italic"><b>Great for:</b> Traders who want tools, learning, and a community.</p><div class="mt-8 flex items-center gap-4"><button onclick="navigateTo('Dashboard')" class="bg-gray-600 text-white font-semibold py-3 px-6 rounded-lg">Back to Choices</button><a href="https://docs.google.com/forms/d/e/1FAIpQLSdG-ucB1LTzKzIPszm54OqTRSaWDhlGoD1jDrYx1Mui04O3tw/viewform?usp=dialog" target="_blank" class="bg-purple-600 text-white font-semibold py-3 px-6 rounded-lg">BUY NOW</a></div></div></div></section>            <section id="EliteDetails" class="page"><div class="min-h-[70vh] container mx-auto px-4 py-16"><div class="max-w-3xl mx-auto card p-8 rounded-xl"><h2 class="text-3xl font-bold text-indigo-400">NIX Elite – ₹14,999</h2><p class="mt-2 text-lg text-gray-300">For serious investors and full-time traders.</p><hr class="my-6 border-gray-700"><h3 class="text-xl font-semibold text-white mb-3">Everything in Pro, plus even more:</h3><ol class="list-decimal list-inside space-y-2 text-gray-300" start="12"><li>Live stock market data</li><li>Easy stock analysis</li><li>Broker integration (connect your account)</li><li>Tax & profit reports</li><li>Daily trade tips</li><li>Historical market data</li><li>Expert-curated investment themes</li><li>Big investor & insider trade alerts</li><li>Market mood & economic trends</li><li>Custom PDF reports with your brand</li><li>Smart AI chat support</li><li>Shared watchlists with friends or team</li><li>IPO updates & expert reviews</li><li>Crypto prices, portfolio tracker & education</li></ol><p class="mt-6 text-gray-400 italic"><b>Great for:</b> Advanced users who want everything in one place — stocks, crypto, tax tools, and expert insights.</p><div class="mt-8 flex items-center gap-4"><button onclick="navigateTo('Dashboard')" class="bg-gray-600 text-white font-semibold py-3 px-6 rounded-lg">Back to Choices</button><a href="https://docs.google.com/forms/d/e/1FAIpQLSdG-ucB1LTzKzIPszm54OqTRSaWDhlGoD1jDrYx1Mui04O3tw/viewform?usp=dialog" target="_blank" class="bg-purple-600 text-white font-semibold py-3 px-6 rounded-lg">BUY NOW</a></div></div></div></section>
-            <!-- All IPOs Page -->            <section id="AllIPOs" class="page"><div class="container mx-auto px-4 py-16"><h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-black dark:text-white">All IPOs</h2><div class="max-w-4xl mx-auto"><div class="card rounded-xl overflow-hidden"><h3 class="text-xl font-bold text-white p-4 bg-indigo-600">Mainline IPOs</h3><ul class="divide-y divide-gray-700"><li class="p-4 flex justify-between items-center"><div><p class="font-bold text-white">NSDL IPO</p><p class="text-sm text-gray-400">Jul 30 - Aug 01</p></div><span class="text-green-400 font-semibold">Open</span></li><li class="p-4 flex justify-between items-center"><div><p class="font-bold text-white">Aditya Infotech IPO</p><p class="text-sm text-gray-400">Jul 29 - Jul 31</p></div><span class="text-red-400 font-semibold">Closed</span></li><li class="p-4 flex justify-between items-center"><div><p class="font-bold text-white">Laxmi India Finance IPO</p><p class="text-sm text-gray-400">Upcoming</p></div><span class="text-yellow-400 font-semibold">Upcoming</span></li><li class="p-4 flex justify-between items-center"><div><p class="font-bold text-white">Brigade Hotel Ventures IPO</p><p class="text-sm text-gray-400">Listed</p></div><span class="text-gray-400 font-semibold">Listed</span></li></ul></div><div class="card rounded-xl overflow-hidden mt-8"><h3 class="text-xl font-bold text-white p-4 bg-purple-600">SME IPOs</h3><ul class="divide-y divide-gray-700"><li class="p-4 flex justify-between items-center"><div><p class="font-bold text-white">Repono IPO</p><p class="text-sm text-gray-400">Allotment</p></div><span class="text-blue-400 font-semibold">Awaiting</span></li><li class="p-4 flex justify-between items-center"><div><p class="font-bold text-white">GNG Electronics IPO</p><p class="text-sm text-gray-400">Listed</p></div><span class="text-gray-400 font-semibold">Listed</span></li><li class="p-4 flex justify-between items-center"><div><p class="font-bold text-white">Sri Lotus Developers IPO</p><p class="text-sm text-gray-400">Listed</p></div><span class="text-gray-400 font-semibold">Listed</span></li></ul></div><div class="text-center mt-8"><button onclick="navigateTo('Home')" class="bg-indigo-600 text-white font-semibold py-2 px-4 rounded-lg">Back to Home</button></div></div></div></section>        </main>                <footer class="bg-gray-200 dark:bg-gray-900 border-t border-gray-300 dark:border-gray-800 mt-12">            <div class="container mx-auto px-4 py-8 text-center text-gray-600 dark:text-gray-500 text-sm"><p>&copy; 2025 NIX Financials. All rights reserved.</p></div>        </footer>    </div>    
-    
-    <script>        document.addEventListener('DOMContentLoaded', function() {            const allPages = document.querySelectorAll('.page');            const navLinks = document.querySelectorAll('.nav-link');            const mobileMenuButton = document.getElementById('mobile-menu-button');            const mobileMenu = document.getElementById('mobile-menu');            const themeToggleButtons = [document.getElementById('theme-toggle-desktop'), document.getElementById('theme-toggle-mobile')];
-            const usersIconContainer = document.getElementById('users-icon');
-            const countdownIconContainer = document.getElementById('countdown-icon');
 
-            window.navigateTo = function(pageId) {                allPages.forEach(p => p.classList.remove('active', 'animate-fade-in'));                const targetPage = document.getElementById(pageId);                if (targetPage) targetPage.classList.add('active', 'animate-fade-in');                                navLinks.forEach(link => {                    const isCurrentPage = link.dataset.page === pageId || (pageId.includes('Details') && link.dataset.page === 'Dashboard') || (pageId === 'AllIPOs' && link.dataset.page === 'Home') || (pageId === 'GoalPlanner' && link.dataset.page === 'GoalPlanner');                    link.classList.toggle('text-indigo-500', isCurrentPage);                    link.classList.toggle('dark:text-indigo-400', isCurrentPage);                    link.classList.toggle('font-bold', isCurrentPage);                    link.classList.toggle('text-gray-600', !isCurrentPage);                    link.classList.toggle('dark:text-gray-300', !isCurrentPage);                });
-                mobileMenu.classList.add('hidden');                renderMenuIcon();                window.scrollTo(0, 0);            }
-            navLinks.forEach(link => link.addEventListener('click', (e) => { e.preventDefault(); navigateTo(link.dataset.page); }));            mobileMenuButton.addEventListener('click', () => { mobileMenu.classList.toggle('hidden'); renderMenuIcon(); });                        const isDarkMode = () => document.documentElement.classList.contains('dark');            const updateTheme = () => {                if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {                    document.documentElement.classList.add('dark');                } else {                    document.documentElement.classList.remove('dark');                }                renderThemeIcons();            };            themeToggleButtons.forEach(btn => btn.addEventListener('click', () => { localStorage.theme = isDarkMode() ? 'light' : 'dark'; updateTheme(); }));
-            const L = LucideReact;            function renderThemeIcons() {                const iconProps = { size: 20, className: 'text-black dark:text-white' };                const icon = isDarkMode() ? L.Sun : L.Moon;                themeToggleButtons.forEach(btn => { if (btn) ReactDOM.render(React.createElement(icon, iconProps), btn); });            }            function renderMenuIcon() {                const iconProps = { size: 24, className: 'text-black dark:text-white' };                const icon = mobileMenu.classList.contains('hidden') ? L.Menu : L.X;                ReactDOM.render(React.createElement(icon, iconProps), mobileMenuButton);            }             
+            <section id="Dashboard" class="page">
+                <div class="min-h-[70vh] flex flex-col items-center justify-center text-center px-4">
+                    <h2 class="text-3xl md:text-4xl font-bold text-black dark:text-white mb-8">Choose NIX Premium Plans.</h2>
+                    <div class="frame flex flex-col md:flex-row items-center gap-8">
+                        <button onclick="navigateTo('EssentialDetails')" class="plan-button bg-gray-200 dark:bg-gray-700 text-black dark:text-white">NIX Essential</button>
+                        <button onclick="navigateTo('ProDetails')" class="plan-button bg-indigo-600 text-white shadow-lg shadow-indigo-500/50">NIX Pro</button>
+                        <button onclick="navigateTo('EliteDetails')" class="plan-button bg-purple-600 text-white">NIX Elite</button>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Login Page -->
+            <section id="Login" class="page">
+                <div class="min-h-[70vh] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+                    <div class="max-w-md w-full space-y-8">
+                        <div>
+                            <h2 class="mt-6 text-center text-3xl font-extrabold text-black dark:text-white">
+                                Log in to your account
+                            </h2>
+                        </div>
+                        <div class="card p-8 rounded-xl">
+                            <form class="space-y-6" action="#" method="POST">
+                                <input type="hidden" name="remember" value="true">
+                                <div class="rounded-md shadow-sm -space-y-px">
+                                    <div>
+                                        <label for="email-address" class="sr-only">Email address</label>
+                                        <input id="email-address" name="email" type="email" autocomplete="email" required class="form-input appearance-none rounded-none relative block w-full px-3 py-3 border placeholder-gray-500 text-gray-900 dark:text-white rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="Email address">
+                                    </div>
+                                    <div>
+                                        <label for="password" class="sr-only">Password</label>
+                                        <input id="password" name="password" type="password" autocomplete="current-password" required class="form-input appearance-none rounded-none relative block w-full px-3 py-3 border placeholder-gray-500 text-gray-900 dark:text-white rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="Password">
+                                    </div>
+                                </div>
+
+                                <div class="flex items-center justify-between">
+                                    <div class="text-sm">
+                                        <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300">
+                                            Forgot your password?
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <button type="submit" class="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                        Log in
+                                    </button>
+                                </div>
+                            </form>
+                            <div class="mt-6 text-center">
+                                <p class="text-sm text-gray-600 dark:text-gray-400">
+                                    Don't have an account?
+                                    <button onclick="navigateTo('Signup')" class="font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300">
+                                        Sign Up
+                                    </button>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Signup Page -->
+            <section id="Signup" class="page">
+                 <div class="min-h-[70vh] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+                    <div class="max-w-md w-full space-y-8">
+                        <div>
+                            <h2 class="mt-6 text-center text-3xl font-extrabold text-black dark:text-white">
+                                Create a new account
+                            </h2>
+                        </div>
+                        <div class="card p-8 rounded-xl">
+                            <form class="space-y-6" action="#" method="POST">
+                                <div>
+                                    <label for="full-name" class="sr-only">Full Name</label>
+                                    <input id="full-name" name="name" type="text" autocomplete="name" required class="form-input appearance-none rounded-md relative block w-full px-3 py-3 border placeholder-gray-500 text-gray-900 dark:text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="Full Name">
+                                </div>
+                                <div>
+                                    <label for="signup-email-address" class="sr-only">Email address</label>
+                                    <input id="signup-email-address" name="email" type="email" autocomplete="email" required class="form-input appearance-none rounded-md relative block w-full px-3 py-3 border placeholder-gray-500 text-gray-900 dark:text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="Email address">
+                                </div>
+                                <div>
+                                    <label for="signup-password" class="sr-only">Password</label>
+                                    <input id="signup-password" name="password" type="password" autocomplete="new-password" required class="form-input appearance-none rounded-md relative block w-full px-3 py-3 border placeholder-gray-500 text-gray-900 dark:text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="Password">
+                                </div>
+
+                                <div>
+                                    <button type="submit" class="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                        Sign Up
+                                    </button>
+                                </div>
+                            </form>
+                             <div class="mt-6 text-center">
+                                <p class="text-sm text-gray-600 dark:text-gray-400">
+                                    Already have an account?
+                                    <button onclick="navigateTo('Login')" class="font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300">
+                                        Log In
+                                    </button>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- About Page -->
+            <section id="About" class="page">
+                <div class="min-h-[70vh] container mx-auto px-4 py-16">
+                    <div class="max-w-3xl mx-auto text-center">
+                        <h2 class="text-4xl md:text-5xl font-extrabold text-black dark:text-white mb-6">About NIX</h2>
+                        <div class="card p-8 rounded-xl text-left space-y-6 text-gray-300">
+                            <h3 class="text-2xl font-bold text-white text-center">Your Goals Deserve a Plan</h3>
+                            <p>
+                                At NIX (New gen Investment eXchange), we believe that behind every investment is a purpose — a goal, a dream, a vision for the future. And every goal deserves more than guesswork. It deserves a plan.
+                            </p>
+                            <p>
+                                That’s why we built NIX — a next-gen investment platform designed to make planning, investing, and growing wealth simple, smart, and accessible to everyone.
+                            </p>
+                            <p>
+                                Whether you're saving for your first home, building long-term wealth, or exploring new asset classes, NIX gives you the tools to move with clarity and confidence. No jargon. No unnecessary complexity. Just a clear path forward.
+                            </p>
+                            <h3 class="text-2xl font-bold text-white pt-4 text-center">What We Stand For</h3>
+                            <ul class="space-y-4 pt-2">
+                                <li>
+                                    <strong class="block text-white">Clarity Over Confusion</strong>
+                                    Our intuitive platform makes investing easy to understand - even for beginners.
+                                </li>
+                                <li>
+                                    <strong class="block text-white">Control in Your Hands</strong>
+                                    From personalised strategies to real-time data, you’re always in charge.
+                                </li>
+                                <li>
+                                    <strong class="block text-white">Technology That Works for You</strong>
+                                    Powerful tools. Clean design. Built for performance and security.
+                                </li>
+                                <li>
+                                    <strong class="block text-white">A Platform with Purpose</strong>
+                                    Every feature is designed to help you turn goals into milestones - one plan at a time.
+                                </li>
+                            </ul>
+                            <h3 class="text-2xl font-bold text-white pt-4 text-center">Why NIX?</h3>
+                            <p class="text-center">
+                                Because your future isn’t a gamble — it’s a strategy. And your goals deserve a plan.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Plan Details Pages -->
+            <section id="EssentialDetails" class="page"><div class="min-h-[70vh] container mx-auto px-4 py-16"><div class="max-w-3xl mx-auto card p-8 rounded-xl"><h2 class="text-3xl font-bold text-indigo-400">NIX Essential – ₹4,999</h2><p class="mt-2 text-lg text-gray-300">For smart beginners and focused investors.</p><hr class="my-6 border-gray-700"><h3 class="text-xl font-semibold text-white mb-3">Includes:</h3><ol class="list-decimal list-inside space-y-2 text-gray-300"><li>Real-time market dashboard</li><li>Stock analysis tools (technical & fundamental)</li><li>Personal portfolio tracker</li><li>Options & derivatives tools</li><li>Price alerts and notifications</li><li>Expert research & trade ideas</li></ol><p class="mt-6 text-gray-400 italic"><b>Great for:</b> People who want a strong start in the market.</p><div class="mt-8 flex items-center gap-4"><button onclick="navigateTo('Dashboard')" class="bg-gray-600 text-white font-semibold py-3 px-6 rounded-lg">Back to Choices</button><a href="https://docs.google.com/forms/d/e/1FAIpQLSdG-ucB1LTzKzIPszm54OqTRSaWDhlGoD1jDrYx1Mui04O3tw/viewform?usp=dialog" target="_blank" class="bg-purple-600 text-white font-semibold py-3 px-6 rounded-lg">BUY NOW</a></div></div></div></section>
+            <section id="ProDetails" class="page"><div class="min-h-[70vh] container mx-auto px-4 py-16"><div class="max-w-3xl mx-auto card p-8 rounded-xl"><h2 class="text-3xl font-bold text-indigo-400">NIX Pro – ₹9,999</h2><p class="mt-2 text-lg text-gray-300">For active traders and learners who want more.</p><hr class="my-6 border-gray-700"><h3 class="text-xl font-semibold text-white mb-3">Everything in Essential, plus:</h3><ol class="list-decimal list-inside space-y-2 text-gray-300" start="7"><li>Premium trading community & live chat rooms</li><li>Online classes & learning workshops</li><li>Live webinars & expert sessions</li><li>Backtesting tools to test your trading ideas</li><li>Pro user perks:<ul class="list-disc list-inside ml-6 mt-1"><li>Ad-free experience</li><li>Priority customer support</li><li>Early access to new features</li></ul></li></ol><p class="mt-6 text-gray-400 italic"><b>Great for:</b> Traders who want tools, learning, and a community.</p><div class="mt-8 flex items-center gap-4"><button onclick="navigateTo('Dashboard')" class="bg-gray-600 text-white font-semibold py-3 px-6 rounded-lg">Back to Choices</button><a href="https://docs.google.com/forms/d/e/1FAIpQLSdG-ucB1LTzKzIPszm54OqTRSaWDhlGoD1jDrYx1Mui04O3tw/viewform?usp=dialog" target="_blank" class="bg-purple-600 text-white font-semibold py-3 px-6 rounded-lg">BUY NOW</a></div></div></div></section>
+            <section id="EliteDetails" class="page"><div class="min-h-[70vh] container mx-auto px-4 py-16"><div class="max-w-3xl mx-auto card p-8 rounded-xl"><h2 class="text-3xl font-bold text-indigo-400">NIX Elite – ₹14,999</h2><p class="mt-2 text-lg text-gray-300">For serious investors and full-time traders.</p><hr class="my-6 border-gray-700"><h3 class="text-xl font-semibold text-white mb-3">Everything in Pro, plus even more:</h3><ol class="list-decimal list-inside space-y-2 text-gray-300" start="12"><li>Live stock market data</li><li>Easy stock analysis</li><li>Broker integration (connect your account)</li><li>Tax & profit reports</li><li>Daily trade tips</li><li>Historical market data</li><li>Expert-curated investment themes</li><li>Big investor & insider trade alerts</li><li>Market mood & economic trends</li><li>Custom PDF reports with your brand</li><li>Smart AI chat support</li><li>Shared watchlists with friends or team</li><li>IPO updates & expert reviews</li><li>Crypto prices, portfolio tracker & education</li></ol><p class="mt-6 text-gray-400 italic"><b>Great for:</b> Advanced users who want everything in one place — stocks, crypto, tax tools, and expert insights.</p><div class="mt-8 flex items-center gap-4"><button onclick="navigateTo('Dashboard')" class="bg-gray-600 text-white font-semibold py-3 px-6 rounded-lg">Back to Choices</button><a href="https://docs.google.com/forms/d/e/1FAIpQLSdG-ucB1LTzKzIPszm54OqTRSaWDhlGoD1jDrYx1Mui04O3tw/viewform?usp=dialog" target="_blank" class="bg-purple-600 text-white font-semibold py-3 px-6 rounded-lg">BUY NOW</a></div></div></div></section>
+
+            <!-- All IPOs Page -->
+            <section id="AllIPOs" class="page"><div class="container mx-auto px-4 py-16"><h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-black dark:text-white">All IPOs</h2><div class="max-w-4xl mx-auto"><div class="card rounded-xl overflow-hidden"><h3 class="text-xl font-bold text-white p-4 bg-indigo-600">Mainline IPOs</h3><ul class="divide-y divide-gray-700"><li class="p-4 flex justify-between items-center"><div><p class="font-bold text-white">NSDL IPO</p><p class="text-sm text-gray-400">Jul 30 - Aug 01</p></div><span class="text-green-400 font-semibold">Open</span></li><li class="p-4 flex justify-between items-center"><div><p class="font-bold text-white">Aditya Infotech IPO</p><p class="text-sm text-gray-400">Jul 29 - Jul 31</p></div><span class="text-red-400 font-semibold">Closed</span></li><li class="p-4 flex justify-between items-center"><div><p class="font-bold text-white">Laxmi India Finance IPO</p><p class="text-sm text-gray-400">Upcoming</p></div><span class="text-yellow-400 font-semibold">Upcoming</span></li><li class="p-4 flex justify-between items-center"><div><p class="font-bold text-white">Brigade Hotel Ventures IPO</p><p class="text-sm text-gray-400">Listed</p></div><span class="text-gray-400 font-semibold">Listed</span></li></ul></div><div class="card rounded-xl overflow-hidden mt-8"><h3 class="text-xl font-bold text-white p-4 bg-purple-600">SME IPOs</h3><ul class="divide-y divide-gray-700"><li class="p-4 flex justify-between items-center"><div><p class="font-bold text-white">Repono IPO</p><p class="text-sm text-gray-400">Allotment</p></div><span class="text-blue-400 font-semibold">Awaiting</span></li><li class="p-4 flex justify-between items-center"><div><p class="font-bold text-white">GNG Electronics IPO</p><p class="text-sm text-gray-400">Listed</p></div><span class="text-gray-400 font-semibold">Listed</span></li><li class="p-4 flex justify-between items-center"><div><p class="font-bold text-white">Sri Lotus Developers IPO</p><p class="text-sm text-gray-400">Listed</p></div><span class="text-gray-400 font-semibold">Listed</span></li></ul></div><div class="text-center mt-8"><button onclick="navigateTo('Home')" class="bg-indigo-600 text-white font-semibold py-2 px-4 rounded-lg">Back to Home</button></div></div></div></section>
+        </main>
+        
+        <footer class="bg-gray-200 dark:bg-gray-900 border-t border-gray-300 dark:border-gray-800 mt-12">
+            <div class="container mx-auto px-4 py-8 text-center text-gray-600 dark:text-gray-500 text-sm"><p>&copy; 2025 NIX Financials. All rights reserved.</p></div>
+        </footer>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const allPages = document.querySelectorAll('.page');
+            const navLinks = document.querySelectorAll('.nav-link');
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const themeToggleButtons = [document.getElementById('theme-toggle-desktop'), document.getElementById('theme-toggle-mobile')];
+            const goalPlannerContainer = document.getElementById('goal-planner-container');
+            const usersIconContainer = document.getElementById('users-icon');
+
+            window.navigateTo = function(pageId) {
+                allPages.forEach(p => p.classList.remove('active', 'animate-fade-in'));
+                const targetPage = document.getElementById(pageId);
+                if (targetPage) targetPage.classList.add('active', 'animate-fade-in');
+                
+                navLinks.forEach(link => {
+                    const isCurrentPage = link.dataset.page === pageId || 
+                                          (pageId.includes('Details') && link.dataset.page === 'Dashboard') || 
+                                          (pageId === 'AllIPOs' && link.dataset.page === 'Home') || 
+                                          (pageId === 'GoalPlanner' && link.dataset.page === 'GoalPlanner');
+                    link.classList.toggle('text-indigo-500', isCurrentPage);
+                    link.classList.toggle('dark:text-indigo-400', isCurrentPage);
+                    link.classList.toggle('font-bold', isCurrentPage);
+                    link.classList.toggle('text-gray-600', !isCurrentPage);
+                    link.classList.toggle('dark:text-gray-300', !isCurrentPage);
+                });
+
+                mobileMenu.classList.add('hidden');
+                renderMenuIcon();
+                window.scrollTo(0, 0);
+            }
+
+            navLinks.forEach(link => link.addEventListener('click', (e) => { e.preventDefault(); navigateTo(link.dataset.page); }));
+            mobileMenuButton.addEventListener('click', () => { mobileMenu.classList.toggle('hidden'); renderMenuIcon(); });
+            
+            const isDarkMode = () => document.documentElement.classList.contains('dark');
+            const updateTheme = () => {
+                if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                    document.documentElement.classList.add('dark');
+                } else {
+                    document.documentElement.classList.remove('dark');
+                }
+                renderThemeIcons();
+            };
+            themeToggleButtons.forEach(btn => btn.addEventListener('click', () => { localStorage.theme = isDarkMode() ? 'light' : 'dark'; updateTheme(); }));
+
+            const L = LucideReact;
+            function renderThemeIcons() {
+                const iconProps = { size: 20, className: 'text-black dark:text-white' };
+                const icon = isDarkMode() ? L.Sun : L.Moon;
+                themeToggleButtons.forEach(btn => { if (btn) ReactDOM.render(React.createElement(icon, iconProps), btn); });
+            }
+            function renderMenuIcon() {
+                const iconProps = { size: 24, className: 'text-black dark:text-white' };
+                const icon = mobileMenu.classList.contains('hidden') ? L.Menu : L.X;
+                ReactDOM.render(React.createElement(icon, iconProps), mobileMenuButton);
+            }
+            
             function renderUsersIcon() {
                 if (usersIconContainer) {
                     ReactDOM.render(React.createElement(L.Users, { size: 48, className: 'text-indigo-500' }), usersIconContainer);
-                }
-            }
-
-            function renderCountdownIcon() {
-                if (countdownIconContainer) {
-                    ReactDOM.render(React.createElement(L.Rocket, { size: 64, className: 'text-indigo-500 animate-bounce' }), countdownIconContainer);
                 }
             }
             
@@ -76,14 +490,52 @@
                 `).join('');
             };
 
-            // Initial Setup            
-            navigateTo('Home');            
-            updateTheme();            
+            // --- Goal Planner ---
+            const renderGoalPlanner = () => {
+                if (!goalPlannerContainer) return;
+                goalPlannerContainer.innerHTML = `
+                    <div class="card p-8 rounded-xl text-center max-w-lg mx-auto">
+                        <h2 class="text-3xl font-bold text-black dark:text-white">Financial Goal Planner</h2>
+                        <form id="goal-form" class="mt-6 space-y-4">
+                            <input type="text" id="goal-name" placeholder="e.g., Buy a new car" class="form-input w-full p-3 rounded-lg" required>
+                            <input type="number" id="goal-amount" placeholder="Target Amount (₹)" class="form-input w-full p-3 rounded-lg" required>
+                            <input type="date" id="goal-date" class="form-input w-full p-3 rounded-lg" required>
+                            <button type="submit" class="w-full bg-indigo-600 text-white font-semibold py-3 px-6 rounded-lg">Create Plan</button>
+                        </form>
+                        <div id="goal-result" class="mt-6 text-left"></div>
+                    </div>
+                `;
+                document.getElementById('goal-form').addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    const name = document.getElementById('goal-name').value;
+                    const amount = parseFloat(document.getElementById('goal-amount').value);
+                    const date = new Date(document.getElementById('goal-date').value);
+                    const today = new Date();
+                    const months = (date.getFullYear() - today.getFullYear()) * 12 + (date.getMonth() - today.getMonth());
+                    
+                    if (months <= 0 || !date.valueOf()) {
+                        document.getElementById('goal-result').innerHTML = '<p class="text-red-500 text-center">Please select a valid future date.</p>';
+                        return;
+                    }
+
+                    const monthlySaving = (amount / months).toFixed(2);
+                    document.getElementById('goal-result').innerHTML = `
+                        <h3 class="font-bold text-xl text-black dark:text-white">Your Plan for "${name}"</h3>
+                        <p class="text-gray-600 dark:text-gray-400 mt-2">To reach ₹${amount.toLocaleString()} by ${date.toLocaleDateString()}, you need to save:</p>
+                        <p class="text-3xl font-bold text-indigo-500 mt-2">₹${monthlySaving.toLocaleString()}</p>
+                        <p class="text-gray-600 dark:text-gray-400">per month for ${months} months.</p>
+                    `;
+                });
+            };
+
+            // Initial Setup
+            navigateTo('Home');
+            updateTheme();
             renderMenuIcon();
             renderUsersIcon();
-            renderCountdownIcon();
             fetchIPOs();
-        });    
+            renderGoalPlanner();
+        });
     </script>
 </body>
 </html>
